@@ -144,6 +144,25 @@ describe('<DropDownMenu />', () => {
     });
   });
 
+  it('passes expected props through to the underlying Popover', () => {
+    const props = {
+      popoverStyle: {
+        opacity: 0.9,
+      },
+    };
+
+    const wrapper = shallowWithContext(
+      <DropDownMenu {...props}>
+        <div value={1} primaryText="Never" />
+      </DropDownMenu>
+    );
+
+    const menu = wrapper.childAt(1);
+    assert.include(menu.props(), {
+      style: props.popoverStyle,
+    });
+  });
+
   describe('focus handling', () => {
     it('should open the menu when users interact', () => {
       const wrapper = mountWithContext(
