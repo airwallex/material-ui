@@ -2,7 +2,7 @@
   "name": "material-ui-build",
   "private": true,
   "author": "Call-em-all Engineering Team, customized by Airwallex",
-  "version": "0.16.8-1",
+  "version": "0.16.8-2",
   "description": "React Components that Implement Google's Material Design.",
   "main": "./src/index.js",
   "keywords": [
