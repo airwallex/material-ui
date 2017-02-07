@@ -113,6 +113,10 @@ class SelectField extends Component {
     /** @ignore */
     onFocus: PropTypes.func,
     /**
+     * Override the inline-styles of the popover.
+     */
+    popoverStyle: PropTypes.object,
+    /**
      * Override the inline-styles of selected menu items.
      */
     selectedMenuItemStyle: PropTypes.object,
@@ -178,6 +182,7 @@ class SelectField extends Component {
       onFocus,
       onBlur,
       onChange,
+      popoverStyle,
       value,
       ...other
     } = this.props;
@@ -210,6 +215,7 @@ class SelectField extends Component {
           labelStyle={Object.assign(styles.label, labelStyle)}
           iconStyle={Object.assign(styles.icon, iconStyle)}
           menuItemStyle={menuItemStyle}
+          popoverStyle={popoverStyle}
           selectedMenuItemStyle={selectedMenuItemStyle}
           underlineStyle={styles.hideDropDownUnderline}
           listStyle={listStyle}
