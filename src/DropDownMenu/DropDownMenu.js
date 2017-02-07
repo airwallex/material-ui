@@ -385,6 +385,7 @@ class DropDownMenu extends Component {
           style={popoverStyle}
         >
           <Menu
+            autoWidth={anchorEl && !autoWidth}
             maxHeight={maxHeight}
             desktop={true}
             value={value}
