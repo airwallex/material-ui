@@ -1,23 +1,23 @@
-import React, {Component, PropTypes} from 'react';
-import TextField from '../TextField';
-import DropDownMenu from '../DropDownMenu';
+import React, { Component, PropTypes } from "react";
+import TextField from "../TextField";
+import DropDownMenu from "../DropDownMenu";
 
 function getStyles(props) {
   return {
     label: {
       paddingLeft: 0,
-      top: props.floatingLabelText ? 6 : -4,
+      top: props.floatingLabelText ? 6 : -4
     },
     icon: {
       right: 0,
-      top: props.floatingLabelText ? 8 : 0,
+      top: props.floatingLabelText ? 8 : 0
     },
     hideDropDownUnderline: {
-      borderTop: 'none',
+      borderTop: "none"
     },
     dropDownMenu: {
-      display: 'block',
-    },
+      display: "block"
+    }
   };
 }
 
@@ -142,16 +142,18 @@ class SelectField extends Component {
      * The value that is currently selected.
      */
     value: PropTypes.any,
+
+    dropDownProps: PropTypes.object
   };
 
   static defaultProps = {
     autoWidth: false,
     disabled: false,
-    fullWidth: false,
+    fullWidth: false
   };
 
   static contextTypes = {
-    muiTheme: PropTypes.object.isRequired,
+    muiTheme: PropTypes.object.isRequired
   };
 
   render() {
@@ -184,6 +186,7 @@ class SelectField extends Component {
       onChange,
       popoverStyle,
       value,
+      dropDownProps,
       ...other
     } = this.props;
 
@@ -198,7 +201,7 @@ class SelectField extends Component {
         floatingLabelText={floatingLabelText}
         floatingLabelStyle={floatingLabelStyle}
         hintStyle={hintStyle}
-        hintText={(!hintText && !floatingLabelText) ? ' ' : hintText}
+        hintText={!hintText && !floatingLabelText ? " " : hintText}
         fullWidth={fullWidth}
         errorText={errorText}
         underlineStyle={underlineStyle}
@@ -223,6 +226,7 @@ class SelectField extends Component {
           value={value}
           onChange={onChange}
           maxHeight={maxHeight}
+          {...dropDownProps}
         >
           {children}
         </DropDownMenu>
