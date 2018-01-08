@@ -1,23 +1,24 @@
-import React, { Component, PropTypes } from "react";
-import TextField from "../TextField";
-import DropDownMenu from "../DropDownMenu";
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import TextField from '../TextField';
+import DropDownMenu from '../DropDownMenu';
 
 function getStyles(props) {
   return {
     label: {
       paddingLeft: 0,
-      top: props.floatingLabelText ? 6 : -4
+      top: props.floatingLabelText ? 6 : -4,
     },
     icon: {
       right: 0,
-      top: props.floatingLabelText ? 8 : 0
+      top: props.floatingLabelText ? 8 : 0,
     },
     hideDropDownUnderline: {
-      borderTop: "none"
+      borderTop: 'none',
     },
     dropDownMenu: {
-      display: "block"
-    }
+      display: 'block',
+    },
   };
 }
 
@@ -39,6 +40,10 @@ class SelectField extends Component {
      * If true, the select field will be disabled.
      */
     disabled: PropTypes.bool,
+    /**
+     * Object that can handle and override any property of component DropDownMenu.
+     */
+    dropDownMenuProps: PropTypes.object,
     /**
      * Override the inline-styles of the error element.
      */
@@ -99,27 +104,47 @@ class SelectField extends Component {
      * Override the inline-styles of the underlying `DropDownMenu` element.
      */
     menuStyle: PropTypes.object,
+    /**
+     * If true, `value` must be an array and the menu will support
+     * multiple selections.
+     */
+    multiple: PropTypes.bool,
     /** @ignore */
     onBlur: PropTypes.func,
     /**
      * Callback function fired when a menu item is selected.
      *
-     * @param {object} event TouchTap event targeting the menu item
+     * @param {object} event Click event targeting the menu item
      * that was selected.
-     * @param {number} key The index of the selected menu item.
-     * @param {any} payload The `value` prop of the selected menu item.
+     * @param {number} key The index of the selected menu item, or undefined
+     * if `multiple` is true.
+     * @param {any} payload If `multiple` is true, the menu's `value`
+     * array with either the menu item's `value` added (if
+     * it wasn't already selected) or omitted (if it was already selected).
+     * Otherwise, the `value` of the menu item.
      */
     onChange: PropTypes.func,
     /** @ignore */
     onFocus: PropTypes.func,
     /**
-     * Override the inline-styles of the popover.
+     * (Ax) Override the inline-styles of the popover.
      */
     popoverStyle: PropTypes.object,
     /**
      * Override the inline-styles of selected menu items.
      */
     selectedMenuItemStyle: PropTypes.object,
+    /**
+     * Customize the rendering of the selected item.
+     *
+     * @param {any} value If `multiple` is true, the menu's `value`
+     * array with either the menu item's `value` added (if
+     * it wasn't already selected) or omitted (if it was already selected).
+     * Otherwise, the `value` of the menu item.
+     * @param {any} menuItem The selected `MenuItem`.
+     * If `multiple` is true, this will be an array with the `MenuItem`s matching the `value`s parameter.
+     */
+    selectionRenderer: PropTypes.func,
     /**
      * Override the inline-styles of the root element.
      */
@@ -139,26 +164,28 @@ class SelectField extends Component {
      */
     underlineStyle: PropTypes.object,
     /**
-     * The value that is currently selected.
+     * If `multiple` is true, an array of the `value`s of the selected
+     * menu items. Otherwise, the `value` of the selected menu item.
+     * If provided, the menu will be a controlled component.
      */
     value: PropTypes.any,
-
-    dropDownProps: PropTypes.object
   };
 
   static defaultProps = {
     autoWidth: false,
     disabled: false,
-    fullWidth: false
+    fullWidth: false,
+    multiple: false,
   };
 
   static contextTypes = {
-    muiTheme: PropTypes.object.isRequired
+    muiTheme: PropTypes.object.isRequired,
   };
 
   render() {
     const {
       autoWidth,
+      multiple,
       children,
       style,
       labelStyle,
@@ -169,6 +196,7 @@ class SelectField extends Component {
       menuItemStyle,
       selectedMenuItemStyle,
       underlineStyle,
+      dropDownMenuProps,
       errorStyle,
       disabled,
       floatingLabelFixed,
@@ -185,8 +213,8 @@ class SelectField extends Component {
       onBlur,
       onChange,
       popoverStyle,
+      selectionRenderer,
       value,
-      dropDownProps,
       ...other
     } = this.props;
 
@@ -201,7 +229,7 @@ class SelectField extends Component {
         floatingLabelText={floatingLabelText}
         floatingLabelStyle={floatingLabelStyle}
         hintStyle={hintStyle}
-        hintText={!hintText && !floatingLabelText ? " " : hintText}
+        hintText={(!hintText && !floatingLabelText) ? ' ' : hintText}
         fullWidth={fullWidth}
         errorText={errorText}
         underlineStyle={underlineStyle}
@@ -226,7 +254,9 @@ class SelectField extends Component {
           value={value}
           onChange={onChange}
           maxHeight={maxHeight}
-          {...dropDownProps}
+          multiple={multiple}
+          selectionRenderer={selectionRenderer}
+          {...dropDownMenuProps}
         >
           {children}
         </DropDownMenu>
